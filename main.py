@@ -16,5 +16,9 @@ async def root():
     return {"message":"It's worked!"}
 
 @app.get("/books/",status_code=status.HTTP_200_OK)
-def get_books():
+async def get_books():
     return books 
+
+@app.get("/books/{id}/",status_code=status.HTTP_200_OK)
+async def show_books(id: int=Path(...,title="id")):
+    return books[id-1]
