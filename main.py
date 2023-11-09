@@ -36,3 +36,11 @@ async def update_books(id: int=Path(...,gt=0),body=Body()):
     books[id-1] = book 
     return books 
     
+@app.delete("/books/{id}/",status_code=status.HTTP_204_NO_CONTENT)
+async def delete_books(id: int=Path(...,gt=0)):
+    try: 
+        book = books[id-1]
+    except IndexError:
+        raise HTTPException(status_code=404,detail="Can't find...")
+    else:
+        books.remove(book)
