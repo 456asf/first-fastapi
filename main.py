@@ -2,9 +2,9 @@ from fastapi import (
     FastAPI,Path,status,
     HTTPException,Body
 )
-
+#initialize project
 app = FastAPI()
-
+#dummy data
 books = [   
     {"title":"book-1","content":"content-1","isbn":"234234-23423-42323"},
     {"title":"book-2","content":"content-2","isbn":"234234-23423-4233"},
