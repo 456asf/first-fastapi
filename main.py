@@ -1,5 +1,6 @@
 from fastapi import (
-    FastAPI,Path,status
+    FastAPI,Path,status,
+    HTTPException,Body
 )
 
 app = FastAPI()
@@ -22,3 +23,16 @@ async def get_books():
 @app.get("/books/{id}/",status_code=status.HTTP_200_OK)
 async def show_books(id: int=Path(...,title="id")):
     return books[id-1]
+
+@app.put("/books/{id}/",status_code=status.HTTP_202_ACCEPTED)
+async def update_books(id: int=Path(...,gt=0),body=Body()):
+    try:
+        book = books[id-1]
+    except IndexError:
+        raise HTTPException(status_code=404,detail="Can't find...")
+    book["title"] = body.get("title") or book.get("title")
+    book["content"] = body.get("content") or book.get("content")
+    book["isbn"] = body.get("isbn") or book.get("isbn")
+    books[id-1] = book 
+    return books 
+    
